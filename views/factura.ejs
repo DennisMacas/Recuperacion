@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Factura</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function(){
+			cargarTabla();	
+        });
+
+        function cargarTabla(){
+            var url = "http://localhost:3000/api/SW/listaFacturas";
+            $.ajax({
+                url: url,
+                type: 'GET',                
+                dataType: 'JSON',
+                success: function (data, textStatus, jqXHR) {                    
+                    var html = "";                    
+                    $.each(data, function (i, item) {
+                        html += '<tr>';
+                        html += '<td>'+item.no_factura+'</td>';
+                        html += '<td>'+item.cliente+'</td>';
+                        html += '<td>'+item.cedula+'</td>';
+                        html += '<td>'+item.clasificacion+'</td>';
+                        html += '<td>'+item.total+'</td>';
+                        html += '<td>'+item.fecha+'</td>';
+                        html += '<td><a href="/editar/'+ item.id_factura+'" type="button" class="btn btn-primary">Editar</td>';
+                        html += '</tr>';
+                    });
+                    $("#tabla tbody").html(html);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(jqXHR.responseText);
+                }
+            });
+        }
+        
+
+    </script>
+
+</head>
+<body>
+ <br>
+ <div class="header" >
+    <a href="/RegistrarFactura" type="button" >Registrar nueva Factura</a>
+ </div>
+ <div class="container">
+     <div class="row">
+         <div class="col-centered">
+             <nav class="nav navbar-nav navbar-center" style="background-color:  #f0c2e0;">
+                 <ul class="nav justify-content-center">
+                   <li class="nav-item">
+                     <h3 style="color: white;"><i class='fas fa-clipboard-list'></i><strong> Lista de Facturas</strong> </h3>
+                   </li>
+                 </ul>  
+             </nav>
+             <section id="vinos">
+                 <table class="table" id="tabla">
+                     <thead class="thead-dark">
+                         <tr>
+                             <th scope="col">Nro Factura</th>
+                             <th scope="col">cliente</th>
+                             <th scope="col">cedula</th>
+                             <th scope="col">clasificacion</th>
+                             <th scope="col">Total</th>
+                             <th scope="col">Fecha</th>
+                            <th scope="col">Acciones</th>
+                         </tr>
+                     </thead>
+                     <tbody>
+
+                     </tbody>
+                 </table>
+             </section>
+         </div>
+     </div>	 
+ </div>
+</body>
+</html>

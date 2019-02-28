@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../css.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+    <title>Document</title>
+    <script>
+            $(document).ready(function(){
+                cargarClasificacion();
+            });
+            
+            function cargarClasificacion(){
+                var url = "api/factura/clasificacion";
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    dataType: 'JSON',
+                    success: function (data, textStatus, jqXHR) {
+                        var html = "<option value=''>Seleccione una clasificacion</option>";
+                        console.log(data);
+                        $.each(data, function (i, item) {
+                            html += '<option value = "' + item + '">' + item + '</option>';
+                        });
+                        $("#clasificacion").html(html);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+
+                    }
+                });
+            }   
+        </script>
+</head>
+<body>
+    <form class="form" action="/api/factura/" method="POST">
+        <h2>Factura</h2>
+        <p type="Nro Factura:"><input name="no_factura" type="number" placeholder="Ingrese el numero de la factura"></input></p>
+        <p type="Cliente:">
+            <input name="cliente" id="id"> 
+        </p>
+        <p type="Cedula"><input name="cedula" id="cedula"></p>
+
+        <p type="clasificacion:">
+			<select name="clasificacion" id="clasificacion">
+            </select>
+        </p>
+
+        <p type="total:"><input type="number" name="total" placeholder="Ingrese el monto"></input></p>
+
+        <p type="Fecha:">
+                <input type="date" class="form-control" name="fecha" aria-describedby="fechaHelp" placeholder="Ingrese la fecha" required>
+        </p>
+        <p>
+        <button type="submit">Guardar</button>
+        <p>
+      </form>
+</body>
+</html>
